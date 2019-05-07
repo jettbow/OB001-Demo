@@ -27,8 +27,7 @@ public class BluetoothLeService extends Service {
 	public final static String ACTION_HEART_RATE_DATA_AVAILABLE = "ob001demo.ACTION_HEART_RATE_DATA_AVAILABLE";
 	public final static String EXTRA_DATA = "ob001demo.EXTRA_DATA";
 
-	public final static UUID UUID_HEART_RATE_MEASUREMENT =
-					UUID.fromString(GattAttributes.HEART_RATE_MEASUREMENT);
+	public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID.fromString(GattAttributes.HEART_RATE_MEASUREMENT);
 
 	private final IBinder binder = new LocalBinder();
 	private BluetoothManager bluetoothManager;
@@ -123,8 +122,7 @@ public class BluetoothLeService extends Service {
 			return false;
 		}
 
-		if (address.equals(bluetoothDeviceAddress)
-						&& bluetoothGatt != null) {
+		if (address.equals(bluetoothDeviceAddress) && bluetoothGatt != null) {
 			return bluetoothGatt.connect();
 		}
 
