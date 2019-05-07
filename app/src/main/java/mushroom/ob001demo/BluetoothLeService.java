@@ -28,7 +28,7 @@ public class BluetoothLeService extends Service {
 	public final static String EXTRA_DATA = "ob001demo.EXTRA_DATA";
 
 	public final static UUID UUID_HEART_RATE_MEASUREMENT =
-			UUID.fromString(GattAttributes.HEART_RATE_MEASUREMENT);
+					UUID.fromString(GattAttributes.HEART_RATE_MEASUREMENT);
 
 	private final IBinder binder = new LocalBinder();
 	private BluetoothManager bluetoothManager;
@@ -45,7 +45,6 @@ public class BluetoothLeService extends Service {
 				intentAction = ACTION_GATT_CONNECTED;
 				broadcastUpdate(intentAction, null);
 				bluetoothGatt.discoverServices();
-
 			} else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 				intentAction = ACTION_GATT_DISCONNECTED;
 				broadcastUpdate(intentAction, null);
@@ -57,8 +56,7 @@ public class BluetoothLeService extends Service {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				List<BluetoothGattService> gattServices = bluetoothGatt.getServices();
 				for (BluetoothGattService gattService : gattServices) {
-					List<BluetoothGattCharacteristic> gattCharacteristics =
-							gattService.getCharacteristics();
+					List<BluetoothGattCharacteristic> gattCharacteristics = gattService.getCharacteristics();
 					for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
 						UUID uuid = gattCharacteristic.getUuid();
 						if (UUID_HEART_RATE_MEASUREMENT.equals(uuid)) {
@@ -72,14 +70,12 @@ public class BluetoothLeService extends Service {
 		}
 
 		@Override
-		public void onCharacteristicChanged(BluetoothGatt gatt,
-											BluetoothGattCharacteristic characteristic) {
+		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
 			broadcastUpdate(ACTION_HEART_RATE_DATA_AVAILABLE, characteristic);
 		}
 	};
 
-	private void broadcastUpdate(final String action,
-								 final BluetoothGattCharacteristic characteristic) {
+	private void broadcastUpdate(final String action, final BluetoothGattCharacteristic characteristic) {
 		final Intent intent = new Intent(action);
 		if (characteristic != null) {
 			if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
@@ -128,7 +124,7 @@ public class BluetoothLeService extends Service {
 		}
 
 		if (address.equals(bluetoothDeviceAddress)
-				&& bluetoothGatt != null) {
+						&& bluetoothGatt != null) {
 			return bluetoothGatt.connect();
 		}
 
@@ -149,8 +145,7 @@ public class BluetoothLeService extends Service {
 		}
 	}
 
-	public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
-											  boolean enabled) {
+	public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic, boolean enabled) {
 		if (bluetoothAdapter == null || bluetoothGatt == null) {
 			return;
 		}
@@ -158,7 +153,7 @@ public class BluetoothLeService extends Service {
 
 		if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
 			BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
-					UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+							UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
 			descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
 			bluetoothGatt.writeDescriptor(descriptor);
 		}
